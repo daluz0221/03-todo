@@ -38,3 +38,25 @@ export async function POST(request: NextRequest){
 
     }
 };
+
+const deleteSchema = yup.object({
+    complete: yup.boolean().required(),
+})
+
+
+export async function DELETE(request: NextRequest){
+
+    
+    try {
+
+        const deleteTodos = await prisma.todo.deleteMany({
+            where: {
+                complete: true
+            }
+        })
+        return NextResponse.json(deleteTodos);
+    } catch (error) {
+        return NextResponse.json(error, {status:400})
+    }
+    
+};
